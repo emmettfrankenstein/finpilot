@@ -1,0 +1,56 @@
+file,column,type,nullable,description,example
+customers.csv,customer_id,string,No,Unique customer identifier,C0001
+customers.csv,full_name,string,No,Customer display name,Aarav Sharma
+customers.csv,email,string,No,Synthetic email address,aarav.sharma1@example.test
+customers.csv,phone,string,No,Synthetic Indian phone number,+919876543210
+customers.csv,city,string,No,City,Mumbai
+customers.csv,state,string,No,State code,MH
+customers.csv,date_of_birth,date,No,DOB,1985-06-02
+customers.csv,onboarded_at,date,No,Platform onboarding date,2025-01-12
+customers.csv,kyc_status,enum,No,VERIFIED/PENDING/REVIEW,VERIFIED
+customers.csv,segment,enum,No,Mass/Affluent/HNI,Affluent
+accounts.csv,account_id,string,No,Unique account identifier,A00001
+accounts.csv,customer_id,string,No,FK to customer,C0001
+accounts.csv,account_type,enum,No,BROKERAGE/MUTUAL_FUND/RETIREMENT,BROKERAGE
+accounts.csv,provider,string,No,Hypothetical provider,NorthStar Securities
+accounts.csv,opened_at,date,No,Account open date,2025-02-01
+accounts.csv,status,enum,No,ACTIVE/DORMANT/CLOSED,ACTIVE
+accounts.csv,base_currency,string,No,ISO currency,INR
+instruments.csv,instrument_id,string,No,Unique instrument identifier,I0001
+instruments.csv,symbol,string,No,Fictional market symbol,EQ001
+instruments.csv,instrument_name,string,No,Display name,FinPilot Equity 1
+instruments.csv,asset_class,enum,No,EQUITY/ETF/MUTUAL_FUND/BOND/REIT/GSEC,EQUITY
+instruments.csv,sector,string,Yes,"Equity sector, blank otherwise",Technology
+instruments.csv,exchange,string,No,NSE/BSE/OTC,NSE
+instruments.csv,currency,string,No,ISO currency,INR
+instruments.csv,last_price,decimal,No,Synthetic latest price,425.50
+instruments.csv,price_as_of,date,No,Price date,2026-09-18
+instruments.csv,risk_band,enum,No,LOW/MEDIUM/HIGH,MEDIUM
+holdings_snapshot.csv,account_id,string,No,FK to account,A00001
+holdings_snapshot.csv,instrument_id,string,No,FK to instrument,I0001
+holdings_snapshot.csv,quantity,decimal,No,Units held,25.5
+holdings_snapshot.csv,avg_cost,decimal,No,Average acquisition price,385.00
+holdings_snapshot.csv,snapshot_date,date,No,Snapshot date,2026-09-18
+transactions.csv,transaction_id,string,No,Transaction identifier; dataset contains one deliberate duplicate,T0000001
+transactions.csv,account_id,string,No,FK to account,A00001
+transactions.csv,instrument_id,string,No,Instrument reference; one deliberate invalid FK exists,I0001
+transactions.csv,transaction_type,enum,No,BUY/SELL/DIVIDEND/FEE,BUY
+transactions.csv,trade_date,date,No,Transaction date; one deliberate future date exists,2026-08-15
+transactions.csv,quantity,decimal,No,"Trade quantity, zero for cash events",10
+transactions.csv,price,decimal,No,"Trade price, zero for cash events",450
+transactions.csv,amount,decimal,No,Gross/cash amount; one deliberate negative fee exists,4500
+transactions.csv,status,enum,No,SETTLED/PENDING/REVERSED,SETTLED
+goals.csv,goal_id,string,No,Unique financial goal,G00001
+goals.csv,customer_id,string,No,FK to customer,C0001
+goals.csv,goal_type,enum,No,Goal category,RETIREMENT
+goals.csv,goal_name,string,No,Display name,Primary Retirement
+goals.csv,target_amount,decimal,No,Target INR amount,5000000
+goals.csv,current_funded_amount,decimal,No,Amount currently funded,1250000
+goals.csv,target_date,date,No,Target completion date,2040-01-01
+goals.csv,priority,enum,No,LOW/MEDIUM/HIGH,HIGH
+risk_profiles.csv,customer_id,string,No,FK to customer,C0001
+risk_profiles.csv,risk_score,integer,No,Synthetic score 0-100,62
+risk_profiles.csv,risk_level,enum,No,Conservative/Moderate/Growth/Aggressive,Growth
+risk_profiles.csv,assessed_at,date,No,Assessment date,2026-07-01
+risk_profiles.csv,horizon_years,integer,No,Investment horizon,12
+risk_profiles.csv,liquidity_need,enum,No,LOW/MEDIUM/HIGH,MEDIUM
