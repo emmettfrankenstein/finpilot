@@ -1,0 +1,31 @@
+                                                                       QUERY PLAN                                                                       
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=77.70..77.76 rows=25 width=89) (actual time=0.108..0.111 rows=25 loops=1)
+   Buffers: shared hit=15
+   ->  Sort  (cost=77.70..77.79 rows=35 width=89) (actual time=0.108..0.109 rows=25 loops=1)
+         Sort Key: t.trade_date DESC, t.transaction_id DESC
+         Sort Method: quicksort  Memory: 29kB
+         Buffers: shared hit=15
+         ->  Hash Join  (cost=3.08..76.80 rows=35 width=89) (actual time=0.046..0.080 rows=33 loops=1)
+               Hash Cond: ((t.instrument_id)::text = (i.instrument_id)::text)
+               Buffers: shared hit=15
+               ->  Nested Loop  (cost=0.28..73.91 rows=35 width=65) (actual time=0.018..0.045 rows=33 loops=1)
+                     Buffers: shared hit=14
+                     ->  Seq Scan on account a  (cost=0.00..4.09 rows=3 width=7) (actual time=0.008..0.018 rows=3 loops=1)
+                           Filter: ((customer_id)::text = 'C0026'::text)
+                           Rows Removed by Filter: 164
+                           Buffers: shared hit=2
+                     ->  Index Scan using txn_account_date_idx on txn t  (cost=0.28..23.15 rows=12 width=65) (actual time=0.004..0.007 rows=11 loops=3)
+                           Index Cond: (((account_id)::text = (a.account_id)::text) AND (trade_date >= '2026-01-01'::date))
+                           Buffers: shared hit=12
+               ->  Hash  (cost=1.80..1.80 rows=80 width=30) (actual time=0.024..0.024 rows=80 loops=1)
+                     Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                     Buffers: shared hit=1
+                     ->  Seq Scan on instrument i  (cost=0.00..1.80 rows=80 width=30) (actual time=0.003..0.010 rows=80 loops=1)
+                           Buffers: shared hit=1
+ Planning:
+   Buffers: shared hit=36
+ Planning Time: 0.483 ms
+ Execution Time: 0.140 ms
+(27 rows)
+
