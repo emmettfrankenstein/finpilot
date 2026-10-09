@@ -129,7 +129,9 @@ class Customer(models.Model):
 
 
 class RiskProfile(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="risk_profiles")
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE, related_name="risk_profiles", db_index=False
+    )
     risk_score = models.PositiveSmallIntegerField()
     risk_level = models.CharField(max_length=12, choices=RiskLevel.choices)
     assessed_at = models.DateField()
@@ -157,7 +159,9 @@ class RiskProfile(models.Model):
 
 class Account(models.Model):
     account_id = models.CharField(primary_key=True, max_length=10)
-    customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name="accounts")
+    customer = models.ForeignKey(
+        Customer, on_delete=models.PROTECT, related_name="accounts", db_index=False
+    )
     account_type = models.CharField(max_length=12, choices=AccountType.choices)
     provider = models.CharField(max_length=80)
     opened_at = models.DateField()
@@ -212,7 +216,9 @@ class InstrumentPrice(models.Model):
     """End-of-day price history. The supplied file carries one price per instrument, but keeping
     prices separate from the security master lets daily price loads append without updates."""
 
-    instrument = models.ForeignKey(Instrument, on_delete=models.CASCADE, related_name="prices")
+    instrument = models.ForeignKey(
+        Instrument, on_delete=models.CASCADE, related_name="prices", db_index=False
+    )
     price_date = models.DateField()
     close_price = models.DecimalField(max_digits=18, decimal_places=4)
 
@@ -225,8 +231,12 @@ class InstrumentPrice(models.Model):
 
 
 class HoldingSnapshot(models.Model):
-    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="holdings")
-    instrument = models.ForeignKey(Instrument, on_delete=models.PROTECT, related_name="holdings")
+    account = models.ForeignKey(
+        Account, on_delete=models.CASCADE, related_name="holdings", db_index=False
+    )
+    instrument = models.ForeignKey(
+        Instrument, on_delete=models.PROTECT, related_name="holdings", db_index=False
+    )
     snapshot_date = models.DateField()
     quantity = models.DecimalField(max_digits=20, decimal_places=6)
     avg_cost = models.DecimalField(max_digits=18, decimal_places=4)
@@ -247,9 +257,11 @@ class HoldingSnapshot(models.Model):
 
 class Transaction(models.Model):
     transaction_id = models.CharField(primary_key=True, max_length=12)
-    account = models.ForeignKey(Account, on_delete=models.PROTECT, related_name="transactions")
+    account = models.ForeignKey(
+        Account, on_delete=models.PROTECT, related_name="transactions", db_index=False
+    )
     instrument = models.ForeignKey(
-        Instrument, on_delete=models.PROTECT, related_name="transactions"
+        Instrument, on_delete=models.PROTECT, related_name="transactions", db_index=False
     )
     transaction_type = models.CharField(max_length=8, choices=TransactionType.choices)
     trade_date = models.DateField()
@@ -293,7 +305,9 @@ class Transaction(models.Model):
 
 class Goal(models.Model):
     goal_id = models.CharField(primary_key=True, max_length=10)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="goals")
+    customer = models.ForeignKey(
+        Customer, on_delete=models.CASCADE, related_name="goals", db_index=False
+    )
     goal_type = models.CharField(max_length=16, choices=GoalType.choices)
     goal_name = models.CharField(max_length=120)
     target_amount = models.DecimalField(max_digits=18, decimal_places=2)
